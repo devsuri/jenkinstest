@@ -20,8 +20,9 @@ pipeline {
             }
         }
         stage('sonar'){
-            echo 'Sonar Scanner'
+	    steps {
+               echo 'Sonar Scanner'
 		    sh "mvn sonar:sonar -Dsonar.host.url=http://198.198.10.46:9000"
-   }
+	    }}
 }
 }
