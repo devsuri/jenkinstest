@@ -28,7 +28,11 @@ pipeline {
         stage('sonar'){
 	    steps {
                echo 'Sonar Scanner'
-		    sh "mvn sonar:sonar -Dsonar.host.url=http://198.198.10.46:9000"
+		   // sh "mvn sonar:sonar -Dsonar.host.url=http://198.198.10.46:9000 -Dsonar.login=XXXXXXXXX"
+		    withSonarQubeEnv('SonarQube') {
+
+                        //sh "'${mvnHome}/bin/mvn'  verify sonar:sonar -Dintegration-tests.skip=true -Dmaven.test.failure.ignore=true"
+                   sh " mvn verify sonar:sonar -Dintegration-tests.skip=true -Dmaven.test.failure.ignore=true"
 	    }}
 	 
 	
