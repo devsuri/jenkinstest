@@ -36,7 +36,7 @@ pipeline {
             steps {
                 script {
                     def mvnHome = tool 'M2_HOME'
-                    withSonarQubeEnv('mysonarqube') {
+                    withSonarQubeEnv('SonarQube') {
 
                         //sh "'${mvnHome}/bin/mvn'  verify sonar:sonar -Dintegration-tests.skip=true -Dmaven.test.failure.ignore=true"
                    sh " mvn verify sonar:sonar -Dintegration-tests.skip=true -Dmaven.test.failure.ignore=true"
