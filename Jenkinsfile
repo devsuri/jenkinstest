@@ -6,12 +6,7 @@ pipeline {
     tools {
     maven 'M2_HOME'
     }
-//    stages {
-//        stage('Checkout') {
-//            steps {
-//                echo 'Checkout'
-//            }
-//        }
+    stages {
         stage('Build') {
             steps {
                 echo 'Clean Build'
@@ -24,5 +19,5 @@ pipeline {
                 sh 'mvn test'
             }
         }
-}
+   }
 }
