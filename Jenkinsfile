@@ -31,6 +31,19 @@ pipeline {
 		    sh "mvn sonar:sonar -Dsonar.host.url=http://198.198.10.46:9000"
 	    }}
 	 
+	    stage('Sonar scan execution') {
+            // Run the sonar scan
+            steps {
+                script {
+                    def mvnHome = tool 'M2_HOME'
+                    withSonarQubeEnv('mysonarqube') {
+
+                        sh "'${mvnHome}/bin/mvn'  verify sonar:sonar -Dintegration-tests.skip=true -Dmaven.test.failure.ignore=true"
+                    }
+                }
+            }
+        }
+
 	    stage('Sonar scan result check') {
             steps {
                 timeout(time: 2, unit: 'MINUTES') {
