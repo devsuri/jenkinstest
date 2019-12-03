@@ -19,6 +19,12 @@ pipeline {
                 sh 'mvn test'
             }
         }
+	stage('JaCoCo') {
+            steps {
+                echo 'Code Coverage'
+                jacoco()
+            }
+        }
         stage('sonar'){
 	    steps {
                echo 'Sonar Scanner'
