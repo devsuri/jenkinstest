@@ -24,3 +24,4 @@ pipeline {
 		    sh "mvn sonar:sonar -Dsonar.host.url=http://198.198.10.46:9000"
    }
 }
+}
