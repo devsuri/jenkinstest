@@ -8,6 +8,9 @@ pipeline {
     maven 'M2_HOME'
     }
 	
+	
+
+    stages {
 	stage('Build with unit testing') {
             steps {
                 // Run the maven build
@@ -33,8 +36,6 @@ pipeline {
                 }
             }
         }
-
-    stages {
         stage('Build') {
             steps {
 		// Run the maven build
