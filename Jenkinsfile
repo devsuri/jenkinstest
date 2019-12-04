@@ -10,13 +10,10 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-		// Run the maven build
+		    // Run the maven build
                 echo 'Clean Build'
-		    
-                   // echo 'Pulling.......' + env.BRANCH_NAME
-                
-          }
             }
+        }
         
         stage('Test') {
             steps {
@@ -25,24 +22,26 @@ pipeline {
                 sh 'mvn test'
             }
         }
-	stage('JaCoCo') {
+	    
+        stage('JaCoCo') {
             steps {
                 echo 'Code Coverage'
                 jacoco()
             }
         }
+        
         stage('sonar'){
-	    steps {
-		     // Run the sonar scan
-               echo 'Sonar Scanner'
-		   // sh "mvn sonar:sonar -Dsonar.host.url=http://198.198.10.46:9000 -Dsonar.login=XXXXXXXXX"
-		    withSonarQubeEnv('SonarQube') {
-
-                        //sh "'${mvnHome}/bin/mvn'  verify sonar:sonar -Dintegration-tests.skip=true -Dmaven.test.failure.ignore=true"
-                   sh " mvn verify sonar:sonar -Dintegration-tests.skip=true -Dmaven.test.failure.ignore=true"
-	    }}
-	 }
-		// waiting for sonar results based into the configured web hook in Sonar server which push the status back to jenkins
+	        steps {
+		        // Run the sonar scan
+                echo 'Sonar Scanner'
+		        // sh "mvn sonar:sonar -Dsonar.host.url=http://198.198.10.46:9000 -Dsonar.login=XXXXXXXXX"
+		        withSonarQubeEnv('SonarQube') {
+                    sh " mvn verify sonar:sonar -Dintegration-tests.skip=true -Dmaven.test.failure.ignore=true"
+	            }
+            }
+	    }
+		
+        // waiting for sonar results based into the configured web hook in Sonar server which push the status back to jenkins
 	    stage('Sonar scan result check') {
             steps {
                 timeout(time: 2, unit: 'MINUTES') {
@@ -57,117 +56,95 @@ pipeline {
                 }
             }
 
-}
-//}
-	stage('Deploy-To-featurebranch') {
+        }
+      
+	    stage('Deploy-from-featurebranch') {
+            when {
+		        expression {
+		        return env.GIT_BRANCH == "origin/feature"
 
-                when {
-		      expression {
-		return env.GIT_BRANCH == "origin/feature"
-
-                    }   
-                }
-
-                steps {
-
+                }   
+            }
+            steps {
                 echo 'Deploying to QA Environment'
-
-                //sshagent(['dev-server']) {
-
-                //sh "rsync -ivhr $WORKSPACE/ServiceInterface/bin/ -e 'ssh -o StrictHostKeyChecking=no' '${env.devsfws}':'/usr/share/nginx/www/DevRubyWS/bin/'"
-
-                //sh "ssh -o StrictHostKeyChecking=no '${env.devsfws}' 'sudo chmod +x /usr/share/nginx/www/DevRubyWS/bin'"
-
-        //      }
-		        }   
+                    //sshagent(['dev-server']) {
+                    //sh "rsync -ivhr $WORKSPACE/ServiceInterface/bin/ -e 'ssh -o StrictHostKeyChecking=no' '${env.devsfws}':'/usr/share/nginx/www/DevRubyWS/bin/'"
+                    //sh "ssh -o StrictHostKeyChecking=no '${env.devsfws}' 'sudo chmod +x /usr/share/nginx/www/DevRubyWS/bin'"
+                //}
+		    }   
         }
 	    
-	    stage('Deploy-To-developmentbranch') {
+	    stage('Deploy-from-develop-branch') {
+            when {
+		        expression {
+		        return env.GIT_BRANCH == "origin/develop"
 
-                when {
-		      expression {
-		return env.GIT_BRANCH == "origin/develop"
-
-                    }   
-                }
-
-                steps {
-
+                }   
+            }
+            steps {
                 echo 'Deploying to Stag Environment'
-
-                //sshagent(['dev-server']) {
-
-                //sh "rsync -ivhr $WORKSPACE/ServiceInterface/bin/ -e 'ssh -o StrictHostKeyChecking=no' '${env.devsfws}':'/usr/share/nginx/www/DevRubyWS/bin/'"
-
-                //sh "ssh -o StrictHostKeyChecking=no '${env.devsfws}' 'sudo chmod +x /usr/share/nginx/www/DevRubyWS/bin'"
-
-        //      }
-		        }   
+                    //sshagent(['dev-server']) {
+                    //sh "rsync -ivhr $WORKSPACE/ServiceInterface/bin/ -e 'ssh -o StrictHostKeyChecking=no' '${env.devsfws}':'/usr/share/nginx/www/DevRubyWS/bin/'"
+                    //sh "ssh -o StrictHostKeyChecking=no '${env.devsfws}' 'sudo chmod +x /usr/share/nginx/www/DevRubyWS/bin'"
+                //}
+		    }   
         }
 	    
-	    stage('Deploy-To-masterbranch') {
+	    stage('Deploy-from-master-branch') {
+            when {
+		        expression {
+		        return env.GIT_BRANCH == "origin/master"
 
-                when {
-		      expression {
-		return env.GIT_BRANCH == "origin/master"
-
-                    }   
-                }
-
-                steps {
-
+                }   
+            }
+            steps {
                 echo 'Deploying to Prod Environment'
-
-                //sshagent(['dev-server']) {
-
-                //sh "rsync -ivhr $WORKSPACE/ServiceInterface/bin/ -e 'ssh -o StrictHostKeyChecking=no' '${env.devsfws}':'/usr/share/nginx/www/DevRubyWS/bin/'"
-
-                //sh "ssh -o StrictHostKeyChecking=no '${env.devsfws}' 'sudo chmod +x /usr/share/nginx/www/DevRubyWS/bin'"
-
-        //      }
-		        }   
+                    //sshagent(['dev-server']) {
+                    //sh "rsync -ivhr $WORKSPACE/ServiceInterface/bin/ -e 'ssh -o StrictHostKeyChecking=no' '${env.devsfws}':'/usr/share/nginx/www/DevRubyWS/bin/'"
+                    //sh "ssh -o StrictHostKeyChecking=no '${env.devsfws}' 'sudo chmod +x /usr/share/nginx/www/DevRubyWS/bin'"
+                //}
+		    }   
         }
     }
 
-post {
-    success {
-      notifyBuild()
-        //notifyBuild('SUCCESSFUL')
+    post {
+        success {
+            notifyBuild()
+            //notifyBuild('SUCCESSFUL')
+        }
+        failure {
+            notifyBuild('ERROR')
+        }
     }
-    failure {
-      notifyBuild('ERROR')
-    }
-  }
 }
 // Slack notification with status and code changes from git
 def notifyBuild(String buildStatus = 'SUCCESSFUL') {
-  //buildStatus = buildStatus
+    //buildStatus = buildStatus
     buildStatus =  buildStatus ?: 'SUCCESSFUL'
 
-  def colorName = 'RED'
-  def colorCode = '#FF0000'
-  def subject = "${buildStatus}: Job Name - '${env.JOB_NAME}', Build No. - '${env.BUILD_NUMBER}', Git Commit - '${env.GIT_COMMIT}'"
-  def changeSet = getChangeSet()
-  def message = "${subject} \n ${changeSet}"
+    def colorName = 'RED'
+    def colorCode = '#FF0000'
+    def subject = "${buildStatus}: Job Name - '${env.JOB_NAME}', Build No. - '${env.BUILD_NUMBER}', Git Commit - '${env.GIT_COMMIT}'"
+    def changeSet = getChangeSet()
+    def message = "${subject} \n ${changeSet}"
 
-  if (buildStatus == 'SUCCESSFUL') {
-    color = 'GREEN'
-    colorCode = '#00FF00'
-  } else {
-    color = 'RED'
-    colorCode = '#FF0000'
-  }
+    if (buildStatus == 'SUCCESSFUL') {
+        color = 'GREEN'
+        colorCode = '#00FF00'
+    } 
+    else {
+        color = 'RED'
+        colorCode = '#FF0000'
+    }
 
-  slackSend (color: colorCode, message: message)
+    slackSend(color: colorCode, message: message)
 }
-
-@NonCPS
 
 // Fetching change set from Git
 def getChangeSet() {
-  return currentBuild.changeSets.collect { cs ->
+    return currentBuild.changeSets.collect { cs ->
     cs.collect { entry ->
-        "* ${entry.author.fullName}: ${entry.msg}"
+            "* ${entry.author.fullName}: ${entry.msg}"
+        }.join("\n")
     }.join("\n")
-  }.join("\n")
 }
