@@ -9,12 +9,29 @@ pipeline {
     stages {
         stage('Build') {
             steps {
+		// Run the maven build
                 echo 'Clean Build'
-                sh 'mvn clean compile'
+		    // Get the Maven tool.
+                    //  NOTE: This 'M3' Maven tool must be configured
+                    //        in the global configuration.
+                    echo 'Pulling.......' + env.BRANCH_NAME
+                    //def mvnHome = tool 'maven-3.3.9'
+                    if (isUnix()) {
+                        def targetVersion = getDevVersion()
+                        print 'target build version...'
+                        print targetVersion
+			
+			     //sh 'mvn clean compile'
+			    sh "mvn -Dintegration-tests.skip=true -Dbuild.number=${targetVersion} clean package"
+			    // get the current development version
+                        developmentArtifactVersion = "${pom.version}-${targetVersion}"
+                        print pom.version
+               
             }
         }
         stage('Test') {
             steps {
+		    // Run integration test
                 echo 'Testing'
                 sh 'mvn test'
             }
@@ -27,6 +44,7 @@ pipeline {
         }
         stage('sonar'){
 	    steps {
+		     // Run the sonar scan
                echo 'Sonar Scanner'
 		   // sh "mvn sonar:sonar -Dsonar.host.url=http://198.198.10.46:9000 -Dsonar.login=XXXXXXXXX"
 		    withSonarQubeEnv('SonarQube') {
@@ -35,6 +53,7 @@ pipeline {
                    sh " mvn verify sonar:sonar -Dintegration-tests.skip=true -Dmaven.test.failure.ignore=true"
 	    }}
 	 }
+		// waiting for sonar results based into the configured web hook in Sonar server which push the status back to jenkins
 	    stage('Sonar scan result check') {
             steps {
                 timeout(time: 2, unit: 'MINUTES') {
