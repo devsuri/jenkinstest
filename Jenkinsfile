@@ -11,22 +11,10 @@ pipeline {
             steps {
 		// Run the maven build
                 echo 'Clean Build'
-		    // Get the Maven tool.
-                    //  NOTE: This 'M3' Maven tool must be configured
-                    //        in the global configuration.
+		    
                     echo 'Pulling.......' + env.BRANCH_NAME
-                    //def mvnHome = tool 'maven-3.3.9'
-                    //if (isUnix()) {
-                       # def targetVersion = getDevVersion()
-                        #print 'target build version...'
-                        #print targetVersion
-			
-			     //sh 'mvn clean compile'
-			    sh "mvn -Dintegration-tests.skip=true -Dbuild.number=${targetVersion} clean package"
-			    // get the current development version
-                        #developmentArtifactVersion = "${pom.version}-${targetVersion}"
-                       # print pom.version
-		    }
+                
+          }
             }
         }
         stage('Test') {
@@ -69,17 +57,4 @@ pipeline {
             }
 
 }
-}
-
-def getDevVersion() {
-    def gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
-    def versionNumber;
-    if (gitCommit == null) {
-        versionNumber = env.BUILD_NUMBER;
-    } else {
-        versionNumber = gitCommit.take(8);
-    }
-    print 'build  versions...'
-    print versionNumber
-    return versionNumber
 }
