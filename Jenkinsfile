@@ -16,7 +16,7 @@ pipeline {
                     //        in the global configuration.
                     echo 'Pulling.......' + env.BRANCH_NAME
                     //def mvnHome = tool 'maven-3.3.9'
-                    if (isUnix()) {
+                    //if (isUnix()) {
                         def targetVersion = getDevVersion()
                         print 'target build version...'
                         print targetVersion
@@ -70,4 +70,17 @@ pipeline {
 
 }
 }
+}
+
+def getDevVersion() {
+    def gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
+    def versionNumber;
+    if (gitCommit == null) {
+        versionNumber = env.BUILD_NUMBER;
+    } else {
+        versionNumber = gitCommit.take(8);
+    }
+    print 'build  versions...'
+    print versionNumber
+    return versionNumber
 }
