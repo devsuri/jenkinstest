@@ -70,7 +70,6 @@ pipeline {
 
 }
 }
-}
 
 def getDevVersion() {
     def gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
