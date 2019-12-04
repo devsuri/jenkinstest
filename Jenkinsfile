@@ -59,6 +59,28 @@ pipeline {
 
 }
 }
+	stage('Deploy-To-featurebranch') {
+
+                when {
+
+                expression {
+
+                return env.GIT_BRANCH == "origin/feature"
+
+                }}
+
+                steps {
+
+                echo 'Deploying to QA Environment'
+
+                //sshagent(['dev-server']) {
+
+                //sh "rsync -ivhr $WORKSPACE/ServiceInterface/bin/ -e 'ssh -o StrictHostKeyChecking=no' '${env.devsfws}':'/usr/share/nginx/www/DevRubyWS/bin/'"
+
+                //sh "ssh -o StrictHostKeyChecking=no '${env.devsfws}' 'sudo chmod +x /usr/share/nginx/www/DevRubyWS/bin'"
+
+            }}}}
+
 
 post {
     success {
