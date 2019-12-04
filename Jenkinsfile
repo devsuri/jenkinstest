@@ -26,7 +26,7 @@ pipeline {
 			    // get the current development version
                         developmentArtifactVersion = "${pom.version}-${targetVersion}"
                         print pom.version
-               
+		    }
             }
         }
         stage('Test') {
