@@ -17,15 +17,15 @@ pipeline {
                     echo 'Pulling.......' + env.BRANCH_NAME
                     //def mvnHome = tool 'maven-3.3.9'
                     //if (isUnix()) {
-                        def targetVersion = getDevVersion()
-                        print 'target build version...'
-                        print targetVersion
+                       # def targetVersion = getDevVersion()
+                        #print 'target build version...'
+                        #print targetVersion
 			
 			     //sh 'mvn clean compile'
 			    sh "mvn -Dintegration-tests.skip=true -Dbuild.number=${targetVersion} clean package"
 			    // get the current development version
-                        developmentArtifactVersion = "${pom.version}-${targetVersion}"
-                        print pom.version
+                        #developmentArtifactVersion = "${pom.version}-${targetVersion}"
+                       # print pom.version
 		    }
             }
         }
