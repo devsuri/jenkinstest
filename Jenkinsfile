@@ -13,11 +13,11 @@ pipeline {
 		// Run the maven build
                 echo 'Clean Build'
 		    
-                    echo 'Pulling.......' + env.BRANCH_NAME
+                   // echo 'Pulling.......' + env.BRANCH_NAME
                 
           }
             }
-        }
+        
         stage('Test') {
             steps {
 		    // Run integration test
