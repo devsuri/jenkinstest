@@ -59,7 +59,7 @@ pipeline {
 
 }
 }
-}
+
 post {
     success {
       notifyBuild()
@@ -69,7 +69,7 @@ post {
       notifyBuild('ERROR')
     }
   }
-    
+}
 // Slack notification with status and code changes from git
 def notifyBuild(String buildStatus = 'SUCCESSFUL') {
   //buildStatus = buildStatus
