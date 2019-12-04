@@ -108,8 +108,9 @@ pipeline {
 
         stage('Arachni-Dynamic-Scanning') {
          steps {
-            arachniScanner checks: '*', scope: [pageLimit: 3], url: 'http://35.171.80.62:8080', userConfig: [filename: 'arachini.json'], format: 'json'
-         }
+            //arachniScanner checks: '*', scope: [pageLimit: 3], url: 'http://35.171.80.62:8080', userConfig: [filename: 'arachini.json'], format: 'json'
+            arachniScanner checks: '*', url: 'http://35.171.80.62:8080'
+	 }
       }
     }
 
