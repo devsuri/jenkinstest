@@ -79,7 +79,8 @@ pipeline {
 
                 //sh "ssh -o StrictHostKeyChecking=no '${env.devsfws}' 'sudo chmod +x /usr/share/nginx/www/DevRubyWS/bin'"
 
-            }}}}
+        //    }
+		}}
 
 
 post {
