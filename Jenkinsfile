@@ -36,15 +36,15 @@ pipeline {
                 }
             }
         }
-        stage('Build') {
-            steps {
+        //stage('Build') {
+        //    steps {
 		// Run the maven build
-                echo 'Clean Build'
+        //        echo 'Clean Build'
 		    
                    // echo 'Pulling.......' + env.BRANCH_NAME
                 
-          }
-            }
+        //  }
+        //    }
         
         stage('Test') {
             steps {
