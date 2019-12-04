@@ -62,10 +62,8 @@ pipeline {
 	stage('Deploy-To-featurebranch') {
 
                 when {
-
-                    expression {
-
-                        return env.GIT_BRANCH == "origin/feature"
+		      expression {
+		return env.GIT_BRANCH == "origin/feature"
 
                     }   
                 }
@@ -73,6 +71,52 @@ pipeline {
                 steps {
 
                 echo 'Deploying to QA Environment'
+
+                //sshagent(['dev-server']) {
+
+                //sh "rsync -ivhr $WORKSPACE/ServiceInterface/bin/ -e 'ssh -o StrictHostKeyChecking=no' '${env.devsfws}':'/usr/share/nginx/www/DevRubyWS/bin/'"
+
+                //sh "ssh -o StrictHostKeyChecking=no '${env.devsfws}' 'sudo chmod +x /usr/share/nginx/www/DevRubyWS/bin'"
+
+        //      }
+		        }   
+        }
+	    
+	    stage('Deploy-To-developmentbranch') {
+
+                when {
+		      expression {
+		return env.GIT_BRANCH == "origin/develop"
+
+                    }   
+                }
+
+                steps {
+
+                echo 'Deploying to Stag Environment'
+
+                //sshagent(['dev-server']) {
+
+                //sh "rsync -ivhr $WORKSPACE/ServiceInterface/bin/ -e 'ssh -o StrictHostKeyChecking=no' '${env.devsfws}':'/usr/share/nginx/www/DevRubyWS/bin/'"
+
+                //sh "ssh -o StrictHostKeyChecking=no '${env.devsfws}' 'sudo chmod +x /usr/share/nginx/www/DevRubyWS/bin'"
+
+        //      }
+		        }   
+        }
+	    
+	    stage('Deploy-To-masterbranch') {
+
+                when {
+		      expression {
+		return env.GIT_BRANCH == "origin/master"
+
+                    }   
+                }
+
+                steps {
+
+                echo 'Deploying to Prod Environment'
 
                 //sshagent(['dev-server']) {
 
