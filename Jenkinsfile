@@ -111,12 +111,11 @@ pipeline {
          steps {
             //arachniScanner checks: '*', scope: [pageLimit: 3], url: 'http://35.171.80.62:8080', userConfig: [filename: 'arachini.json'], format: 'json'
             //arachniScanner checks: '*', scope: [pageLimit: 1], url: 'http://35.171.80.62:8080'
-	    //sh 'rm -rf 35*
+	    sh 'rm -rf /var/jenkins_home/workspace/arachni_report/*
 	    //sh '/arachni-1.4-0.5.10/bin/arachni http://35.171.80.62:8080 '
             sh '/arachni-1.4-0.5.10/bin/arachni http://35.171.80.62:8080 --report-save-path=/var/jenkins_home/workspace/arachni_report/arachni_report.afr'
-	    //arachni-1.4-0.5.10/bin/arachni_reporter /var/jenkins_home/workspace/arachni_report/arachni_report.afr --reporter=html:outfile=my_report.html.zip
-	 
-	 }
+	    sh '/arachni-1.4-0.5.10/bin/arachni_reporter /var/jenkins_home/workspace/arachni_report/arachni_report.afr --reporter=html:outfile=my_report.html.zip'
+        }
       }
     }
 
