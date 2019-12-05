@@ -123,6 +123,7 @@ pipeline {
         success {
             notifyBuild()
             //notifyBuild('SUCCESSFUL')
+	    slackUploadFile channel: 'jenkins-test-devsecops', credentialId: 'jenkins-test-devsecops-slack', filePath: '/var/jenkins_home/workspace/arachni_report/arachni_report.html.zip', initialComment: 'Arachni Scanning Report'
         }
         failure {
             notifyBuild('ERROR')
