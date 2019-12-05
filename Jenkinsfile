@@ -156,6 +156,7 @@ def notifyBuild(String buildStatus = 'SUCCESSFUL') {
 }
 
 // Fetching change set from Git
+@NonCPS
 def getChangeSet() {
     return currentBuild.changeSets.collect { cs ->
     cs.collect { entry ->
