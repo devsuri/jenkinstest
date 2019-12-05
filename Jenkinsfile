@@ -12,6 +12,7 @@ pipeline {
             steps {
 		    // Run the maven build
                 echo 'Clean Build'
+		sh 'mvn clean compile'
             }
         }
         
