@@ -31,7 +31,7 @@ pipeline {
             }
         }
         
-        stage('sonar'){
+        stage('Sonar-Static-Scanning'){
 	        steps {
 		        // Run the sonar scan
                 echo 'Sonar Scanner'
@@ -119,6 +119,12 @@ pipeline {
 	    sh 'chmod 777 /var/jenkins_home/workspace/pipeline-jenkinstest/arachni_report.html.zip'
 	 }
       }
+	    
+	stage('Blaze-Meter') {
+         steps {
+	    blazeMeterTest credentialsId: 'blazemeter-api-key', getJtl: true, getJunit: true, testId: '7498467.taurus', workspaceId: '400136'
+	    }
+	 }
     }
 
     post {
