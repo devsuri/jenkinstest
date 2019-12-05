@@ -126,9 +126,15 @@ pipeline {
             notifyBuild()
             //notifyBuild('SUCCESSFUL')
 	    //slackUploadFile credentialId: 'jenkins-test-devsecops-slack', filePath: '/var/jenkins_home/workspace/pipeline-jenkinstest/arachni_report.html.zip', initialComment: 'Arachni Scanning Report'
-            slackUploadFile filePath: '/var/jenkins_home/workspace/pipeline-jenkinstest/arachni_report.html.zip', initialComment:  'HEY HEY'
-	}
-        failure {
+            //slackUploadFile filePath: '/var/jenkins_home/workspace/pipeline-jenkinstest/arachni_report.html.zip', initialComment:  'HEY HEY'
+	
+           emailext attachmentsPattern: 'generatedFile.txt',
+           body: "${currentBuild.currentResult}: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}\n More info at: ${env.BUILD_URL}",
+           recipientProviders: [developers(), requestor()],
+           subject: "Jenkins Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}"	}
+	    
+        
+	 failure {
             notifyBuild('ERROR')
 	  }
     }
@@ -154,7 +160,7 @@ def notifyBuild(String buildStatus = 'SUCCESSFUL') {
     }
 
     slackSend(color: colorCode, message: message)
-    slackUploadFile filePath: '/var/jenkins_home/workspace/pipeline-jenkinstest/arachni_report.html.zip', initialComment:  'HEY HEY'
+    //slackUploadFile filePath: '/var/jenkins_home/workspace/pipeline-jenkinstest/arachni_report.html.zip', initialComment:  'HEY HEY'
 }
 
 // Fetching change set from Git
