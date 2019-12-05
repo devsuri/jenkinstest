@@ -122,7 +122,7 @@ pipeline {
 	    
 	stage('Blaze-Meter') {
          steps {
-	    blazeMeterTest credentialsId: 'blazemeter-api-key', getJtl: true, getJunit: true, testId: '7498467.taurus', workspaceId: '400136'
+	    blazeMeterTest credentialsId: 'blazemeter-api-key', getJtl: true, getJunit: true, testId: '7498494.taurus', workspaceId: '400136'
 	    }
 	 }
     }
