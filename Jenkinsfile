@@ -125,8 +125,9 @@ pipeline {
         success {
             notifyBuild()
             //notifyBuild('SUCCESSFUL')
-	    slackUploadFile credentialId: 'jenkins-test-devsecops-slack', filePath: '/var/jenkins_home/workspace/pipeline-jenkinstest/arachni_report.html.zip', initialComment: 'Arachni Scanning Report'
-        }
+	    //slackUploadFile credentialId: 'jenkins-test-devsecops-slack', filePath: '/var/jenkins_home/workspace/pipeline-jenkinstest/arachni_report.html.zip', initialComment: 'Arachni Scanning Report'
+            slackUploadFile filePath: '/var/jenkins_home/workspace/pipeline-jenkinstest/arachni_report.html.zip', initialComment:  'HEY HEY'
+	}
         failure {
             notifyBuild('ERROR')
 	  }
@@ -153,6 +154,7 @@ def notifyBuild(String buildStatus = 'SUCCESSFUL') {
     }
 
     slackSend(color: colorCode, message: message)
+    slackUploadFile filePath: '/var/jenkins_home/workspace/pipeline-jenkinstest/arachni_report.html.zip', initialComment:  'HEY HEY'
 }
 
 // Fetching change set from Git
