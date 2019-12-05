@@ -116,7 +116,7 @@ pipeline {
             sh '/arachni-1.4-0.5.10/bin/arachni http://35.171.80.62:8080 --report-save-path=/var/jenkins_home/workspace/arachni_report/arachni_report.afr'
 	    sh '/arachni-1.4-0.5.10/bin/arachni_reporter /var/jenkins_home/workspace/arachni_report/arachni_report.afr --reporter=html:outfile=/var/jenkins_home/workspace/arachni_report/arachni_report.html.zip'
             sh 'cp /var/jenkins_home/workspace/arachni_report/arachni_report.html.zip /var/jenkins_home/workspace/pipeline-jenkinstest/'
-	 
+	    sh 'chmod 777 /var/jenkins_home/workspace/pipeline-jenkinstest/arachni_report.html.zip'
 	 }
       }
     }
