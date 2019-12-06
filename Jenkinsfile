@@ -109,6 +109,7 @@ pipeline {
 
         stage('Arachni-Dynamic-Scanning') {
 	    steps {
+		  echo 'Arachni-Dynamic-Scanning'
                   sh 'rm -rf /var/jenkins_home/workspace/arachni_report/*'
                   sh 'rm -rf /var/jenkins_home/workspace/pipeline-jenkinstest/arachni_report/*'
 	          //sh '/arachni-1.4-0.5.10/bin/arachni http://35.171.80.62:8080 '
@@ -122,6 +123,7 @@ pipeline {
       }
 	stage('Publish HTML report') {
 	    steps {
+		  echo 'Publish HTML report'
 	          publishHTML target: [
                   allowMissing: false,
                   alwaysLinkToLastBuild: false,
@@ -134,9 +136,10 @@ pipeline {
 	 }
 	    
 	stage('Blaze-Meter') {
-         steps {
-            //blazeMeterTest credentialsId: 'blazemeter-api-key', testId: '7498756.functionalGui', workspaceId: '400136'
-	    //blazeMeterTest credentialsId: 'blazemeter-api-key', testId: '7500672.functionalGui', workspaceId: '400136'
+            steps {
+                echo 'Blaze-Meter'
+                //blazeMeterTest credentialsId: 'blazemeter-api-key', testId: '7498756.functionalGui', workspaceId: '400136'
+	        //blazeMeterTest credentialsId: 'blazemeter-api-key', testId: '7500672.functionalGui', workspaceId: '400136'
 	    }
 	 }
     }
