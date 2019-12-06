@@ -123,12 +123,12 @@ pipeline {
       }
 	stage('Publish HTML report') {
 	    steps {
-		  echo 'Publish HTML report'
+		  echo 'Arachni-Dynamic-Scanning Report'
 	          publishHTML target: [
                   allowMissing: false,
                   alwaysLinkToLastBuild: false,
                   keepAll: true,
-                  reportDir: 'arachni_report',
+                  reportDir: 'Arachni-Dynamic-Scanning Report',
                   reportFiles: 'index.html',
                   reportName: 'Arachni-Dynamic-Scanning Report'
                   ]
