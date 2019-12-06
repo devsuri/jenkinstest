@@ -1,0 +1,18 @@
+execution:
+- concurrency: 30
+  ramp-up: 1m
+  hold-for: 5m
+  scenario: quick-test
+scenarios:
+  quick-test:
+    requests:
+    - http://blazedemo.com
+    - url: http://blazedemo.com/reserve.php
+      method: POST
+      headers:
+        Content-Type: application/x-www-form-urlencoded
+      body:
+        fromPort: ${from}
+        toPort: ${to}
+    data-sources:
+    - data.csv
