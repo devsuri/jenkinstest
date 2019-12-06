@@ -146,7 +146,8 @@ pipeline {
 	    
 	stage('Blaze-Meter') {
          steps {
-	    blazeMeterTest credentialsId: 'blazemeter-api-key', testId: '7500672.functionalGui', workspaceId: '400136'
+            blazeMeterTest credentialsId: 'blazemeter-api-key', testId: '7498756.functionalGui', workspaceId: '400136'
+	    //blazeMeterTest credentialsId: 'blazemeter-api-key', testId: '7500672.functionalGui', workspaceId: '400136'
 	    }
 	 }
     }
