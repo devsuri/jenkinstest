@@ -126,6 +126,12 @@ pipeline {
             }
       }
 	stage('Publish HTML report') {
+	 when {
+		        expression {
+		        return env.GIT_BRANCH == "origin/master"
+
+                }   
+            }
          steps {
 	    publishHTML target: [
             allowMissing: false,
@@ -140,7 +146,7 @@ pipeline {
 	    
 	stage('Blaze-Meter') {
          steps {
-	    blazeMeterTest additionalTestFiles: 'pipeline-jenkinstest/data.csv', credentialsId: 'blazemeter-api-key', mainTestFile: 'pipeline-jenkinstest/test.yml', testId: '7500672.functionalGui', workspaceId: '400136'
+	    blazeMeterTest credentialsId: 'blazemeter-api-key', testId: '7500672.functionalGui', workspaceId: '400136'
 	    }
 	 }
     }
