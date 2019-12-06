@@ -109,16 +109,14 @@ pipeline {
 
         stage('Arachni-Dynamic-Scanning') {
          steps {
-            //arachniScanner checks: '*', scope: [pageLimit: 3], url: 'http://35.171.80.62:8080', userConfig: [filename: 'arachini.json'], format: 'json'
-            //arachniScanner checks: '*', scope: [pageLimit: 1], url: 'http://35.171.80.62:8080'
-	    sh 'rm -rf arachni_report/*'
+            sh 'rm -rf /var/jenkins_home/workspace/arachni_report/*'
 	    //sh '/arachni-1.4-0.5.10/bin/arachni http://35.171.80.62:8080 '
-            sh '/arachni-1.4-0.5.10/bin/arachni http://35.171.80.62:8080 --report-save-path=/var/jenkins_home/workspace/pipeline-jenkinstest/arachni_report/arachni_report.afr'
-	    sh '/arachni-1.4-0.5.10/bin/arachni_reporter /var/jenkins_home/workspace/pipeline-jenkinstest/arachni_report/arachni_report.afr --reporter=html:outfile=/var/jenkins_home/workspace/pipeline-jenkinstes/arachni_report/arachni_report.html.zip'
-            //sh 'cp /var/jenkins_home/workspace/arachni_report/arachni_report.html.zip /var/jenkins_home/workspace/pipeline-jenkinstest/'
-	    //sh 'chmod 777 -R /var/jenkins_home/workspace/pipeline-jenkinstest/arachni_report/'
-            sh 'unzip /var/jenkins_home/workspace/pipeline-jenkinstes/arachni_report/arachni_report.html.zip -d /var/jenkins_home/workspace/pipeline-jenkinstes/arachni_report/' 
-	 }
+            sh '/arachni-1.4-0.5.10/bin/arachni http://35.171.80.62:8080 --report-save-path=/var/jenkins_home/workspace/arachni_report/arachni_report.afr'
+	    sh '/arachni-1.4-0.5.10/bin/arachni_reporter /var/jenkins_home/workspace/arachni_report/arachni_report.afr --reporter=html:outfile=/var/jenkins_home/workspace/arachni_report/arachni_report.html.zip'
+            sh 'cp /var/jenkins_home/workspace/arachni_report/arachni_report.html.zip /var/jenkins_home/workspace/pipeline-jenkinstest/'
+	    sh 'chmod 777 /var/jenkins_home/workspace/pipeline-jenkinstest/arachni_report.html.zip'
+            sh 'unzip arachni_report.html.zip -d arachni_report'
+            }
       }
 	stage('Publish HTML report') {
          steps {
