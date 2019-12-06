@@ -97,7 +97,7 @@ pipeline {
 		        return env.GIT_BRANCH == "origin/master"
 
                 }   
-            }
+             }
             steps {
                 echo 'Deploying to Prod Environment'
                     //sshagent(['dev-server']) {
@@ -108,7 +108,14 @@ pipeline {
         }
 
         stage('Arachni-Dynamic-Scanning') {
+	when {
+		        expression {
+		        return env.GIT_BRANCH == "origin/master"
+
+                }   
+            }
          steps {
+            sh 'rm -rf /var/jenkins_home/workspace/arachni_report/*'
             sh 'rm -rf /var/jenkins_home/workspace/arachni_report/*'
 	    //sh '/arachni-1.4-0.5.10/bin/arachni http://35.171.80.62:8080 '
             sh '/arachni-1.4-0.5.10/bin/arachni http://35.171.80.62:8080 --report-save-path=/var/jenkins_home/workspace/arachni_report/arachni_report.afr'
