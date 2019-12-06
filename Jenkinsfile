@@ -121,27 +121,21 @@ pipeline {
             }
       }
 	stage('Publish HTML report') {
-	 when {
-		        expression {
-		        return env.GIT_BRANCH == "origin/master"
-
-                }   
-            }
-         steps {
-	    publishHTML target: [
-            allowMissing: false,
-            alwaysLinkToLastBuild: false,
-            keepAll: true,
-            reportDir: 'arachni_report',
-            reportFiles: 'index.html',
-            reportName: 'arachni Report'
-          ]
+	    steps {
+	          publishHTML target: [
+                  allowMissing: false,
+                  alwaysLinkToLastBuild: false,
+                  keepAll: true,
+                  reportDir: 'arachni_report',
+                  reportFiles: 'index.html',
+                  reportName: 'Arachni-Dynamic-Scanning Report'
+                  ]
 	    }
 	 }
 	    
 	stage('Blaze-Meter') {
          steps {
-            blazeMeterTest credentialsId: 'blazemeter-api-key', testId: '7498756.functionalGui', workspaceId: '400136'
+            //blazeMeterTest credentialsId: 'blazemeter-api-key', testId: '7498756.functionalGui', workspaceId: '400136'
 	    //blazeMeterTest credentialsId: 'blazemeter-api-key', testId: '7500672.functionalGui', workspaceId: '400136'
 	    }
 	 }
