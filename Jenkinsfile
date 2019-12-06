@@ -140,7 +140,7 @@ pipeline {
 	    
 	stage('Blaze-Meter') {
          steps {
-	    blazeMeterTest additionalTestFiles: 'data.csv', credentialsId: 'blazemeter-api-key', mainTestFile: 'test.yml', testId: '7500672.functionalGui', workspaceId: '400136'
+	    blazeMeterTest additionalTestFiles: 'pipeline-jenkinstest/data.csv', credentialsId: 'blazemeter-api-key', mainTestFile: 'pipeline-jenkinstest/test.yml', testId: '7500672.functionalGui', workspaceId: '400136'
 	    }
 	 }
     }
