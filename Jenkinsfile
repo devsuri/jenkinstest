@@ -106,6 +106,23 @@ pipeline {
                 //}
 		    }   
         }
+	    
+	stage('Development deploy approval and deployment') {
+            steps {
+                script {
+                    if (currentBuild.result == null || currentBuild.result == 'SUCCESS') {
+                        timeout(time: 3, unit: 'MINUTES') {
+                            // you can use the commented line if u have specific user group who CAN ONLY approve
+                            //input message:'Approve deployment?', submitter: 'it-ops'
+                            input message: 'Approve deployment?'
+                        }
+                        timeout(time: 2, unit: 'MINUTES') {
+				            echo "the application is deploying
+                        }
+                    }
+                }
+            }
+        }
 
         stage('Arachni-Dynamic-Scanning') {
 	    steps {
@@ -120,7 +137,7 @@ pipeline {
                   //sh 'unzip /var/jenkins_home/workspace/pipeline-jenkinstest/arachni_report/arachni_report.html.zip -d arachni_report'
 		    sh 'unzip $WORKSPACE/arachni_report/arachni_report.html.zip -d $WORKSPACE/arachni_report'
             }
-      }
+        }
 	stage('Publish HTML report') {
 	    steps {
 		  echo 'Arachni-Dynamic-Scanning Report'
