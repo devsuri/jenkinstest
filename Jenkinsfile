@@ -127,7 +127,7 @@ pipeline {
         stage('Arachni-Dynamic-Scanning') {
 	    steps {
 		  echo 'Arachni-Dynamic-Scanning'
-		  sh 'mkdir $WORKSPACE/arachni_report'
+		  //sh 'mkdir $WORKSPACE/arachni_report'
                   sh 'rm -rf /var/jenkins_home/workspace/arachni_report/*'
                   sh 'rm -rf $WORKSPACE/arachni_report/*'
                   sh '/arachni-1.4-0.5.10/bin/arachni "${env.domainname}" --report-save-path=/var/jenkins_home/workspace/arachni_report/arachni_report.afr'
