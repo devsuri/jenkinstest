@@ -117,7 +117,7 @@ pipeline {
                             input message: 'Approve deployment?'
                         }
                         timeout(time: 2, unit: 'MINUTES') {
-				            echo "the application is deploying
+		            echo 'the application is deploying'
                         }
                     }
                 }
