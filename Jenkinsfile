@@ -127,12 +127,13 @@ pipeline {
         stage('Arachni-Dynamic-Scanning') {
 	    steps {
 		  echo 'Arachni-Dynamic-Scanning'
+		  sh 'mkdir $WORKSPACE/arachni_report'
                   sh 'rm -rf /var/jenkins_home/workspace/arachni_report/*'
-                  sh 'rm -rf /var/jenkins_home/workspace/pipeline-jenkinstest/arachni_report/*'
-                  sh '/arachni-1.4-0.5.10/bin/arachni '${env.domainname}' --report-save-path=/var/jenkins_home/workspace/arachni_report/arachni_report.afr'
+                  sh 'rm -rf $WORKSPACE/arachni_report/*'
+                  sh '/arachni-1.4-0.5.10/bin/arachni "${env.domainname}" --report-save-path=/var/jenkins_home/workspace/arachni_report/arachni_report.afr'
 	          sh '/arachni-1.4-0.5.10/bin/arachni_reporter /var/jenkins_home/workspace/arachni_report/arachni_report.afr --reporter=html:outfile=/var/jenkins_home/workspace/arachni_report/arachni_report.html.zip'
-                  sh 'cp /var/jenkins_home/workspace/arachni_report/arachni_report.html.zip /var/jenkins_home/workspace/pipeline-jenkinstest/arachni_report'
-	          sh 'chmod 777 -R /var/jenkins_home/workspace/pipeline-jenkinstest/arachni_report'
+                  sh 'cp /var/jenkins_home/workspace/arachni_report/arachni_report.html.zip $WORKSPACE/arachni_report'
+	          sh 'chmod 777 -R $WORKSPACE/arachni_report'
                   //sh 'unzip /var/jenkins_home/workspace/pipeline-jenkinstest/arachni_report/arachni_report.html.zip -d arachni_report'
 		  sh 'unzip $WORKSPACE/arachni_report/arachni_report.html.zip -d $WORKSPACE/arachni_report'
             }
