@@ -106,7 +106,7 @@ pipeline {
                 //}
 		    }   
         }
-	    
+	/*    
 	stage('Development deploy approval and deployment') {
             steps {
                 script {
@@ -122,7 +122,7 @@ pipeline {
                     }
                 }
             }
-        }
+        }*/
 
         stage('Arachni-Dynamic-Scanning') {
 	    steps {
