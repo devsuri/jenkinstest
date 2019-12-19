@@ -33,7 +33,7 @@ pipeline {
         
         stage('Sonar-Static-Scanning'){
 	        steps {
-		        // Run the sonar scan
+		        // //Run the sonar scan
                 echo 'Sonar Scanner'
 		        // sh "mvn sonar:sonar -Dsonar.host.url=http://198.198.10.46:9000 -Dsonar.login=XXXXXXXXX"
 		        withSonarQubeEnv('SonarQube') {
