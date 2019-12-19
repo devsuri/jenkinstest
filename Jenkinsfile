@@ -42,24 +42,8 @@ pipeline {
             }
 	    }
 		
-        // waiting for sonar results based into the configured web hook in Sonar server which push the status back to jenkins
-	    stage('Sonar scan result check') {
-            steps {
-                timeout(time: 2, unit: 'MINUTES') {
-                    retry(3) {
-                        script {
-                            def qg = waitForQualityGate()
-                            if (qg.status != 'OK') {
-                                error "Pipeline aborted due to quality gate failure: ${qg.status}"
-                            }
-                        }
-                    }
-                }
-            }
-
-        }
-      
-	    stage('Deploy-from-featurebranch') {
+        
+            stage('Deploy-from-featurebranch') {
             when {
 		        expression {
 		        return env.GIT_BRANCH == "origin/feature*"
