@@ -46,7 +46,7 @@ pipeline {
             stage('Deploy-from-featurebranch') {
             when {
 		        expression {
-		        return env.GIT_BRANCH == "origin/feature*"
+		        return env.GIT_BRANCH == "origin/feature-devsecops"
 
                 }   
             }
